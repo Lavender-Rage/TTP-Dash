@@ -11,7 +11,7 @@ Then open the URL Vite prints (usually http://localhost:5173).
 
 ## Structure
 
-    launchpad-dashboard/
+    TTP-Dash/
     ├── index.html                 # loads the Manrope font
     ├── package.json
     ├── vite.config.js             # React + Tailwind Vite plugins
