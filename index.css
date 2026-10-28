@@ -1,0 +1,150 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Figtree:wght@500;600;700&display=swap");
+
+:root {
+  --bg: #f2bdc1; /* lavender page */
+  --ink: #822020; /* deep purple: title, logo tile, active pill */
+  --ink-soft: #5b4e7e; /* subtitle */
+  --link: #da2f2f; /* nav links */
+  --accent: #2b8c6f; /* star */
+  --surface: #ffffff; /* nav pill track */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  font-family: "Figtree", system-ui, sans-serif;
+  color: var(--ink);
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 38px 42px;
+}
+
+/* ---------- Brand ---------- */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brand__logo {
+  width: 70px;
+  height: 70px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  border-radius: 14px;
+}
+
+.brand__logo {
+  color: var(--accent);
+  font-size: 34px;
+  line-height: 1;
+}
+
+.brand__title {
+  font-family: "Bricolage Grotesque", "Figtree", sans-serif;
+  font-weight: 800;
+  font-size: 46px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.brand__subtitle {
+  margin-top: 4px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+/* ---------- Nav ---------- */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  background: var(--surface);
+  border-radius: 999px;
+}
+
+.nav a {
+  display: block;
+  padding: 16px 24px;
+  border-radius: 999px;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--link);
+  text-decoration: none;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+
+.nav a:hover {
+  background: var(--bg);
+}
+
+.nav a.active {
+  background: var(--ink);
+  color: #fff;
+  font-weight: 700;
+}
+
+.nav a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 720px) {
+  .site-header {
+    padding: 24px 20px;
+  }
+  .brand__logo {
+    width: 56px;
+    height: 56px;
+  }
+  .brand__title {
+    font-size: 34px;
+  }
+  .brand__subtitle {
+    font-size: 14px;
+  }
+  .nav {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .nav a {
+    padding: 12px 14px;
+    font-size: 16px;
+  }
+}
+
+.overview {
+  display: flex;
+  /* align-items: center; */
+  gap: 4px;
+  padding: 8px;
+  margin-left: 40px;
+  margin-right: 40px;
+  height: 400px;
+  background: var(--surface);
+  border-radius: 50px;
+}
+
+.stats {
+    margin: 30px;
+}
