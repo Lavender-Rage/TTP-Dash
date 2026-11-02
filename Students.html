@@ -23,6 +23,22 @@
             <a href="#">Professional Development</a>
         </nav>
     </header>
+    <div class="overview-stats">
+        <div class="students-layout">
+            <nav class="filter-nav">
+                <button class="filter-btn active" data-cohort="all">All</button>
+                <button class="filter-btn" data-cohort="1">Cohort 1</button>
+                <button class="filter-btn" data-cohort="2">Cohort 2</button>
+                <button class="filter-btn" data-cohort="3">Cohort 3</button>
+                <button class="filter-btn" data-cohort="3.5">Cohort 3.5</button>
+            </nav>
+            <div id="student-list" class="student-list"></div>
+        </div>
+    </div>
+    <!-- 1. SheetJS library first -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <!-- 2. Your own script second -->
+    <script src="js/students.js"></script>
 </body>
 
 </html>
