@@ -16,6 +16,17 @@
                 <p class="brand__subtitle">City Tech · Tech Talent Pipeline</p>
             </div>
         </div>
+
+        <div class="global-search">
+            <svg class="global-search__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+                <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" />
+            </svg>
+            <input type="search" id="global-search" placeholder="Search Talent Vault" aria-label="Search Talent Vault"
+                autocomplete="off" role="combobox" aria-expanded="false" aria-controls="search-results">
+            <div id="search-results" class="search-results" role="listbox" hidden></div>
+        </div>
         <nav class="nav">
             <a href="./index.html">Overview</a>
             <a href="#" class="active">Students</a>
@@ -35,10 +46,65 @@
             <div id="student-list" class="student-list"></div>
         </div>
     </div>
+
+    <dialog id="student-modal" class="student-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div id="modal-avatar" class="modal-avatar"></div>
+
+                <div class="modal-info">
+                    <h2 id="modal-name"></h2>
+                    <p id="modal-major" class="modal-major"></p>
+                    <dl class="modal-details">
+                        <dt>Graduation</dt>
+                        <dd id="modal-graduation"></dd>
+                        <dt>School email</dt>
+                        <dd id="modal-school-email"></dd>
+                        <dt>Personal email</dt>
+                        <dd id="modal-personal-email"></dd>
+                        <dt>Phone</dt>
+                        <dd id="modal-phone"></dd>
+                    </dl>
+                </div>
+
+                <div class="modal-actions">
+                    <button id="modal-edit" class="modal-edit">Edit</button>
+                    <button id="modal-close" class="modal-close" aria-label="Close">✕</button>
+                </div>
+
+            </div>
+            <div class="modal-stats">
+                <div class="modal-stat">
+                    <p class="modal-stat__label">Technical interviews</p>
+                    <p class="modal-stat__value"><span id="tech-count">–</span>/3</p>
+                    <div id="tech-bar" class="progress"><span></span><span></span><span></span></div>
+                </div>
+
+                <div class="modal-stat">
+                    <p class="modal-stat__label">Behavioral interviews</p>
+                    <p class="modal-stat__value"><span id="behavior-count">–</span>/3</p>
+                    <div id="behavior-bar" class="progress"><span></span><span></span><span></span></div>
+                </div>
+
+                <div class="modal-stat">
+                    <p class="modal-stat__label">Internship / FT work</p>
+                    <p id="work-company" class="modal-stat__company">–</p>
+                    <p id="work-years" class="modal-stat__years"></p>
+                </div>
+            </div>
+
+            <section class="modal-notes">
+                <h3>Notes</h3>
+                <p id="modal-notes"></p>
+            </section>
+        </div>
+    </dialog>
     <!-- 1. SheetJS library first -->
     <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
-    <!-- 2. Your own script second -->
-    <script src="js/students.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/search-sources.js"></script>
+    <script src="js/students.js"></script> <!-- or overview.js, jobs.js, etc. -->
 </body>
 
 </html>

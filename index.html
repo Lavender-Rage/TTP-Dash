@@ -7,7 +7,6 @@
 </head>
 
 <body>
-
   <header class="site-header">
     <div class="brand">
       <div class="brand__logo">☆</div>
@@ -15,6 +14,16 @@
         <h1 class="brand__title">Talent Vault</h1>
         <p class="brand__subtitle">City Tech · Tech Talent Pipeline</p>
       </div>
+    </div>
+
+    <div class="global-search">
+      <svg class="global-search__icon" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+        <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+      <input type="search" id="global-search" placeholder="Search Talent Vault" aria-label="Search Talent Vault"
+        autocomplete="off" role="combobox" aria-expanded="false" aria-controls="search-results">
+      <div id="search-results" class="search-results" role="listbox" hidden></div>
     </div>
 
     <nav class="nav">
@@ -25,28 +34,85 @@
     </nav>
   </header>
 
+  <main class="overview-stats">
+    <div class="stat-cards">
+      <div class="stat">
+        <div class="stat-h">
+          <p class="stat-name">Total students</p>
+          <p class="stat-nums" id="total-students">–</p>
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-h">
+          <p class="stat-name">Internships</p>
+          <p class="stat-nums" id="internship-count">–</p>
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-h">
+          <p class="stat-name">Full time</p>
+          <p class="stat-nums" id="fulltime-count">–</p>
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-h">
+          <p class="stat-name">Placement rate</p>
+          <p class="stat-nums" id="placement-rate">–</p>
+          <p class="stat-sub" id="placement-detail"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="overview-grid">
+      <section class="overview-card overview-card--wide">
+        <h2>Placement by cohort</h2>
+        <p class="overview-card__hint">Share of each cohort with an internship or full-time role. Select a cohort to see
+          its students.</p>
+        <div id="cohort-chart" class="cohort-bars"></div>
+      </section>
+
+      <section class="overview-card">
+        <h2>Needs mock interviews</h2>
+        <p class="overview-card__hint">Not yet placed, with fewer than 3 technical or behavioral interviews.</p>
+        <ul id="mock-list" class="overview-list"></ul>
+      </section>
+
+      <section class="overview-card">
+        <h2>Graduating soon</h2>
+        <p class="overview-card__hint">Graduating in the next 6 months.</p>
+        <ul id="grad-list" class="overview-list"></ul>
+      </section>
+    </div>
+  </main>
+
   <!-- Stat cards -->
-  <div class="overview-stats">
+  <!-- <div class="overview-stats">
     <div class="stat-cards">
       <div class="stat">
         <div class="stat-name">TOTAL STUDENTS</div>
-        <div class="stat-nums">48</div>
+        <p class="stat-nums" id="total-students">–</p>
       </div>
       <div class="stat">
-        <div class="stat-name">STATS</div>
-        <div class="stat-nums">5</div>
+        <div class="stat-name">INTERNSHIPS</div>
+        <div class="stat-nums">-</div>
       </div>
       <div class="stat">
-        <div class="stat-name">STATS</div>
-        <div class="stat-nums">1</div>
+        <div class="stat-name">FULL TIME</div>
+        <div class="stat-nums">-</div>
       </div>
     </div>
     <div>
       <p class="next"></p>
     </div>
-    
-  </div>
-  
+
+  </div> -->
+
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/search-sources.js"></script>
+  <script src="js/index.js"></script> <!-- or overview.js, jobs.js, etc. -->
+
 </body>
 
 </html>

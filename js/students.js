@@ -1,40 +1,18 @@
 let students = [];
 
 async function loadStudents() {
-  const res = await fetch("data/masterCohortList.xlsx");
-  const buffer = await res.arrayBuffer();
-  const workbook = XLSX.read(buffer);
-  const sheet = workbook.Sheets[workbook.SheetNames[0]];
-  const rows = XLSX.utils.sheet_to_json(sheet, { defval: "" });
-
-  console.log("Sheets:", workbook.SheetNames);
-  console.log("First rows:", rows.slice(0, 5));
-
-  let currentCohort = null;
-  students = [];
-
-  for (const row of rows) {
-  const firstCell = String(row.Name).trim();
-
-  // Cohort header rows: "Cohort 1", "Cohort 3.5", etc.
-  const header = firstCell.match(/^Cohort\s+([\d.]+)/i);
-  if (header) {
-    currentCohort = header[1];
-    continue;
+  students = await loadStudentData();
+  renderStudents("all");
+  const requested = params.get("student");
+  if (requested) {
+    const match = students.find((s) => s.Name === requested);
+    if (match) openStudentModal(match);
   }
 
-  // Actual student name lives in the unlabeled column
-  const name = String(row.__EMPTY).trim();
-  if (!name) continue; // skip blank rows
-
-  students.push({ ...row, Number: row.Name, Name: name, Cohort: currentCohort });
+  if (cohort || requested)
+    history.replaceState(null, "", window.location.pathname);
 }
 
-  students.sort((a, b) => a.Name.localeCompare(b.Name));
-  renderStudents("all");
-}
-
-// "Neuha K." -> "NK", "Maria" -> "M", "???" -> ""
 function getInitials(name) {
   const words = name
     .split(/\s+/)
@@ -78,7 +56,8 @@ function renderStudents(cohort) {
       avatar.classList.add("avatar-logo");
     }
 
-    const name = document.createElement("span");
+    // const name = document.createElement("span");
+    const name = document.createElement("button");
     name.className = "student-name";
     name.textContent = student.Name;
 
@@ -105,8 +84,22 @@ function renderStudents(cohort) {
   });
 }
 
+const requested = new URLSearchParams(window.location.search).get("student");
+if (requested) {
+  const match = students.find((s) => s.Name === requested);
+  if (match) openStudentModal(match);
+  history.replaceState(null, "", window.location.pathname); // tidy the address bar
+}
+
 // One listener handles every control button, including rows added later
 document.getElementById("student-list").addEventListener("click", (e) => {
+  const nameBtn = e.target.closest(".student-name");
+
+  if (nameBtn) {
+    const student = students[nameBtn.closest(".student-row").dataset.index];
+    openStudentModal(student);
+    return;
+  }
   const btn = e.target.closest(".control-btn");
   if (!btn) return;
   const student = students[btn.closest(".student-row").dataset.index];
@@ -129,5 +122,86 @@ document.querySelectorAll(".filter-btn").forEach((btn) => {
     renderStudents(btn.dataset.cohort);
   });
 });
+
+// Student pop-up
+const modal = document.getElementById("student-modal");
+let currentStudent = null;
+
+function setText(id, value) {
+  document.getElementById(id).textContent = value ? String(value).trim() : "—";
+}
+
+function setEmail(id, address) {
+  const el = document.getElementById(id);
+  el.textContent = "";
+  if (!address) {
+    el.textContent = "—";
+    return;
+  }
+  const link = document.createElement("a");
+  link.href = `mailto:${address}`;
+  link.textContent = address;
+  el.appendChild(link);
+}
+
+function openStudentModal(student) {
+  currentStudent = student;
+
+  const avatar = document.getElementById("modal-avatar");
+  const initials = getInitials(student.Name);
+  avatar.textContent = initials || "☆";
+  avatar.classList.toggle("avatar-logo", !initials);
+
+  setText("modal-name", student.Name);
+  setText("modal-major", student.Major);
+  setText("modal-graduation", student.Graduation);
+  setEmail("modal-school-email", student["School Email"]);
+  setEmail("modal-personal-email", student["Personal Email"]);
+  setText("modal-phone", student.Phone);
+  setText("modal-notes", student.Notes || "No notes yet.");
+
+  setInterviewProgress("tech", student["Technical Interviews"]);
+  setInterviewProgress("behavior", student["Behavioral Interviews"]);
+  setWork(student.Company, student.Years);
+
+  modal.showModal();
+}
+
+// Close: ✕ button, clicking the dark backdrop, or pressing Esc (built in)
+document
+  .getElementById("modal-close")
+  .addEventListener("click", () => modal.close());
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) modal.close(); // clicked outside the white box
+});
+
+document.getElementById("modal-edit").addEventListener("click", () => {
+  console.log("Edit", currentStudent); // hook up editing later
+});
+
+function setInterviewProgress(prefix, value) {
+  const parsed = parseInt(value, 10);
+  const hasValue = !isNaN(parsed);
+  const count = hasValue ? Math.max(0, Math.min(3, parsed)) : 0;
+
+  document.getElementById(`${prefix}-count`).textContent = hasValue
+    ? count
+    : "–";
+  document.querySelectorAll(`#${prefix}-bar span`).forEach((segment, i) => {
+    segment.classList.toggle("filled", i < count);
+  });
+}
+
+function setWork(company, years) {
+  const companyEl = document.getElementById("work-company");
+  const yearsEl = document.getElementById("work-years");
+  const name = company ? String(company).trim() : "";
+  const yrs = parseFloat(years);
+
+  companyEl.textContent = name || "None listed yet";
+  yearsEl.textContent = !isNaN(yrs)
+    ? `${yrs} ${yrs === 1 ? "year" : "years"}`
+    : "";
+}
 
 loadStudents();
